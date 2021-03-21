@@ -1,0 +1,66 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-demo
+  cloud:
+    #nacos
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+        name: consumer
+    #zipkin
+    zipkin:
+      base-url: http://127.0.0.1:9411
+      discovery-client-enabled: false #让nacos把它当成一个URL，而不要当成服务名
+    #sleuth
+    sleuth:
+      sampler:
+        probability: 1.0 #采样的百分比   0.1-1.0
+  #mysql
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/spring-demo?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 2
+      max-active: 50
+      min-idle: 2
+      pool-prepared-statements: true
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      connect-properties:
+        config:
+          decrypt: true
+  #redis
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    lettuce:
+      pool:
+        max-active: 60
+        max-idle: 8
+        min-idle: 0
+#feign
+feign:
+  okhttp:
+    enabled: true
+  sentinel:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: full
+##rocketmq
+#rocketmq:
+#  nameServer: 127.0.0.1
